@@ -377,11 +377,30 @@ function initThemeToggle() {
         themeSwitch.checked = true;
     }
     
+    // Update favicon based on initial theme
+    updateFavicon(savedTheme);
+    
     themeSwitch.addEventListener('change', () => {
         const newTheme = themeSwitch.checked ? 'light' : 'dark';
         body.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
+        updateFavicon(newTheme);
     });
+}
+
+// Function to update favicon based on theme
+function updateFavicon(theme) {
+    const favicon = document.querySelector('link[rel="icon"]');
+    if (favicon) {
+        // Create a new SVG with the appropriate color
+        const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+            <circle cx="16" cy="16" r="16" fill="${theme === 'dark' ? 'black' : 'white'}"/>
+        </svg>`;
+        
+        // Create a data URL from the SVG
+        const dataUrl = 'data:image/svg+xml;base64,' + btoa(svgContent);
+        favicon.href = dataUrl;
+    }
 }
 
 // Initialize scroll-to-top button
