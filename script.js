@@ -403,8 +403,69 @@ function updateFavicon(theme) {
     }
 }
 
+// Email copy functionality
+function initEmailCopy() {
+    const emailBtn = document.getElementById('email-btn');
+    if (emailBtn) {
+        emailBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Copy email to clipboard
+            const email = 'anishemail3131@gmail.com';
+            navigator.clipboard.writeText(email).then(() => {
+                showCopiedMessage();
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = email;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showCopiedMessage();
+            });
+        });
+    }
+}
+
+function showCopiedMessage() {
+    const emailBtn = document.getElementById('email-btn');
+    if (!emailBtn) return;
+    
+    // Remove existing message if any
+    const existingMessage = document.querySelector('.copied-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // Create new message
+    const message = document.createElement('div');
+    message.className = 'copied-message';
+    message.textContent = 'Copied!';
+    
+    // Position relative to email button
+    emailBtn.style.position = 'relative';
+    emailBtn.appendChild(message);
+    
+    // Trigger animation
+    setTimeout(() => {
+        message.classList.add('show');
+    }, 10);
+    
+    // Fade out after 2 seconds
+    setTimeout(() => {
+        message.classList.add('fade-out');
+        setTimeout(() => {
+            if (message.parentNode) {
+                message.parentNode.removeChild(message);
+            }
+        }, 300);
+    }, 2000);
+}
+
 // Initialize scroll-to-top button
 document.addEventListener('DOMContentLoaded', () => {
     addScrollToTop();
     initThemeToggle();
+    initEmailCopy();
 });

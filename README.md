@@ -2,7 +2,7 @@
 
 A modern, responsive portfolio website built with HTML, CSS, and JavaScript. Features a clean design with smooth animations, mobile responsiveness, and easy project management.
 
-## 🚀 Features
+## Features
 
 - **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
 - **Modern UI**: Clean, professional design with smooth animations
@@ -12,7 +12,7 @@ A modern, responsive portfolio website built with HTML, CSS, and JavaScript. Fea
 - **Mobile Menu**: Hamburger menu for mobile devices
 - **Scroll Animations**: Projects animate in as you scroll
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Website/
@@ -22,44 +22,6 @@ Website/
 └── README.md           # This file
 ```
 
-## 🛠️ How to Run
-
-### Option 1: Simple File Opening
-1. Open `index.html` directly in your web browser
-2. That's it! The website will work locally
-
-### Option 2: Local Server (Recommended)
-For the best experience, run a local server:
-
-#### Using Python (if installed):
-```bash
-# Python 3
-python -m http.server 8000
-
-# Python 2
-python -m SimpleHTTPServer 8000
-```
-
-#### Using Node.js (if installed):
-```bash
-# Install a simple server globally
-npm install -g http-server
-
-# Run the server
-http-server
-```
-
-#### Using Live Server (VS Code):
-1. Install the "Live Server" extension in VS Code
-2. Right-click on `index.html`
-3. Select "Open with Live Server"
-
-### Option 3: Online Hosting
-Upload all files to any web hosting service like:
-- GitHub Pages
-- Netlify
-- Vercel
-- Heroku
 
 ## ✏️ How to Customize
 
