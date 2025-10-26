@@ -64,7 +64,7 @@ const projectsData = [
     },
     {
         title: "Polaris",
-        description: "An ESP-32 based flight computer used to log data onboard for the Longhorn Rocketry Association's Competition Rocket",
+        description: "An ESP-32 based flight computer used to log data onboard for the Longhorn Rocketry Association's Competition Rocket for IREC 2025",
         technologies: ["C++", "KiCad", "Git"],
         githubUrl: "",
         icon: "images/Polaris.png",
@@ -84,7 +84,7 @@ const projectsData = [
     },
     {
         title: "V1",
-        description: "An STM32 based flight computer used to log onboard data, transmit live telemetry, and control airbrake for the Longhorn Rocketry Association's Competition Rocket, Aurora",
+        description: "An STM32 based flight computer used to log onboard data, transmit live telemetry, and control airbrake for the Longhorn Rocketry Association's Competition Rocket for IREC 2026",
         technologies: ["C++", "KiCad", "STM32CubeIDE", "Git"],
         githubUrl: "",
         icon: "images/V1.png",
