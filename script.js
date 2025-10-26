@@ -111,7 +111,7 @@ const projectsData = [
         description: "A handheld rythm game developed using C and the MSPM0 controller.",
         technologies: ["C"],
         githubUrl: "https://github.com/Anish-Agarwall/Handheld-Rhythm-Game",
-        icon: "images/SyncUp.png",
+        icon: "images/SyncUpNew.png",
         isPrivate: false,
         details: {
             overview: "A handheld rythm game that required users to sync up their hits with visual and audio ques",
