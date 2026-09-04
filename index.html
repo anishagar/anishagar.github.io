@@ -4,125 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anish Agarwal</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="#home">Anish Agarwal</a>
-            </div>
-            <div class="nav-menu" id="nav-menu">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#contact" class="nav-link">Contact</a>
-            </div>
-            <div class="nav-controls">
-                <div class="theme-switch-container">
-                    <input type="checkbox" id="theme-switch" class="theme-switch">
-                    <label for="theme-switch" class="theme-switch-label">
-                        <span class="theme-switch-slider"></span>
-                        <i class="fas fa-moon theme-icon moon-icon"></i>
-                        <i class="fas fa-sun theme-icon sun-icon"></i>
-                    </label>
-                </div>
-                <div class="nav-toggle" id="nav-toggle">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <h1 class="hero-title">Hi, I'm <span class="highlight">Anish</span></h1>
-            <p class="hero-subtitle">Electrical and Computer Engineering Student</p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">View My Work</a>
-                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Projects</h2>
-            <div class="projects-grid" id="projects-grid">
-                <!-- Projects will be dynamically loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        Junior in Electrical and Computer Engineering at the University of Texas at Austin 
-                        going towards the Computer Architecture and Embedded Systems track.
-                    </p>
-                    <p>
-                        Currenly serving as the Avionics Lead for Longhorn Rocketry Association.
-                    </p>
-                    <div class="skills">
-                        <h3>Skills</h3>
-                        <div class="skills-grid">
-                            <span class="skill-tag">PCB Design</span>
-                            <span class="skill-tag">Circuit Design</span>
-                            <span class="skill-tag">C/C++</span>
-                            <span class="skill-tag">Git</span>
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Verilog</span>
-                            <span class="skill-tag">Soldering</span>
-                            <span class="skill-tag">CAD</span>
-                            <span class="skill-tag">Instrumentation</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <p class="contact-text">
-                I'm always interested in new opportunities and exciting projects. 
+    <main class="container">
+        <!-- Header / Intro -->
+        <header class="intro">
+            <h1 class="name">anish agarwal</h1>
+            <p class="bio">
+                ece at ut austin focused on computer architecture and embedded systems. <br>
+                avionics lead at longhorn rocketry association.<br>
+                seeking internship for summer 2026 in embedded systems, firmware, or hardware design.<br>
+                prev. @ Moog Inc (Military Aircraft Group)<br>
             </p>
-            <div class="contact-buttons">
-                <a href="mailto:anishemail3131@gmail.com" class="contact-btn" id="email-btn">
-                    <i class="fas fa-envelope"></i>
-                    <span>Email Me</span>
-                </a>
-                <a href="https://github.com/Anish-Agarwall" target="_blank" class="contact-btn">
-                    <i class="fab fa-github"></i>
-                    <span>GitHub</span>
-                </a>
-                <a href="https://linkedin.com/in/anishagar" target="_blank" class="contact-btn">
-                    <i class="fab fa-linkedin"></i>
-                    <span>LinkedIn</span>
-                </a>
+            <div class="links">
+                <button id="email-btn" class="email-copy-btn">email</button>
+                <a href="https://github.com/Anish-Agarwall" target="_blank">github</a>
+                <a href="https://linkedin.com/in/anishagar" target="_blank">linkedin</a>
             </div>
-        </div>
-    </section>
+        </header>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Anish Agarwal. All rights reserved.</p>
-        </div>
-    </footer>
+        <!-- Selected Projects -->
+        <section class="work">
+            <span class="section-label">selected work</span>
+            
+            <div class="project-list">
+                <div class="project-item">
+                    <div class="project-header">
+                        <span class="project-title">V1</span>
+                        <span class="project-year">2026</span>
+                    </div>
+                    <p class="project-desc">STM32-based flight computer logging onboard data, transmitting live telemetry via LoRa, and controlling active airbrakes.</p>
+                    <span class="project-meta">C/C++ / KiCad / STM32CubeIDE</span>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <a href="https://github.com/Anish-Agarwall/Polaris-Flight-Computer" target="_blank" class="project-title">Polaris ↗</a>
+                        <span class="project-year">2025</span>
+                    </div>
+                    <p class="project-desc">ESP-32 flight computer with 6-axis IMU and barometric pressure sensor for rocket telemetry.</p>
+                    <span class="project-meta">C++ / KiCad / PlatformIO</span>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <a href="https://github.com/Anish-Agarwall/AutomaticInspectionGPIB" target="_blank" class="project-title">Auto Testing System ↗</a>
+                        <span class="project-year">2024</span>
+                    </div>
+                    <p class="project-desc">Automated validation software for power electronic modules built for WAKO Giken Co.</p>
+                    <span class="project-meta">Python / PyVISA / Instrumentation</span>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-header">
+                        <a href="https://github.com/Anish-Agarwall/Handheld-Rhythm-Game" target="_blank" class="project-title">Sync Up! ↗</a>
+                        <span class="project-year">2024</span>
+                    </div>
+                    <p class="project-desc">Handheld hardware rhythm game featuring custom audio DAC and randomized level generation.</p>
+                    <span class="project-meta">C / MSPM0</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <span>© 2026 anish agarwal</span>
+        </footer>
+    </main>
 
     <script src="script.js"></script>
 </body>

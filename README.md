@@ -1,3 +1,3 @@
 # Personal Portfolio Website
 
-behold, read me!
+tried to have fun with it :p
