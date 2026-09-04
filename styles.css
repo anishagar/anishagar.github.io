@@ -66,6 +66,14 @@ body {
     max-width: 460px;
 }
 
+.company-highlight {
+    transition: color 0.15s ease;
+}
+
+.company-highlight:hover {
+    color: #a61c2e; /* Official Moog Inc. Ruby Red */
+}
+
 .links {
     display: flex;
     gap: 16px;
