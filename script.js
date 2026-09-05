@@ -441,6 +441,14 @@ function initEasterEgg() {
     });
 }
 
+function closeTerminal() {
+    const term = document.querySelector('.term-window');
+    if (term) {
+        if (cubeAnimFrame) cancelAnimationFrame(cubeAnimFrame);
+        term.remove();
+    }
+}
+
 function openTerminal() {
     if (document.querySelector('.term-window')) return;
 
@@ -458,12 +466,32 @@ function openTerminal() {
         <div class="term-body">
             <div class="term-line"><span class="prompt">user@dev:~$</span> ./spin_cube.sh</div>
             <pre class="ascii-canvas" id="cube-view"></pre>
+            <div class="term-output" id="term-output"></div>
+            <div class="term-input-line">
+                <span class="prompt">user@dev:~$</span>
+                <input type="text" id="term-input" class="term-input" autocomplete="off" spellcheck="false" placeholder="type 'help'">
+            </div>
         </div>
     `;
 
     document.body.appendChild(term);
 
-    // Draggable functionality (Fixes initial jump issue)
+    // Focus input on click inside terminal body
+    const body = term.querySelector('.term-body');
+    const input = term.querySelector('#term-input');
+    body.addEventListener('click', () => input.focus());
+    input.focus();
+
+    // Command handling
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const cmd = input.value.trim().toLowerCase();
+            handleTerminalCommand(cmd);
+            input.value = '';
+        }
+    });
+
+    // Draggable functionality
     const header = term.querySelector('.term-header');
     let isDragging = false;
     let offsetX = 0;
@@ -493,12 +521,66 @@ function openTerminal() {
 
     // Close logic
     const closeBtn = term.querySelector('.dot-close');
-    closeBtn.addEventListener('click', () => {
-        if (cubeAnimFrame) cancelAnimationFrame(cubeAnimFrame);
-        term.remove();
-    });
+    closeBtn.addEventListener('click', closeTerminal);
 
     renderSpinningCube();
+}
+
+function handleTerminalCommand(cmd) {
+    const output = document.getElementById('term-output');
+    if (!output) return;
+
+    if (cmd === '') return;
+
+    const line = document.createElement('div');
+    line.className = 'term-out-line';
+
+    switch (cmd) {
+        case 'exit':
+            closeTerminal();
+            return;
+
+        case 'projects':
+            line.innerHTML = `
+                <div class="term-block-title">SELECTED WORK:</div>
+                • FPGA HFT Execution Engine [2026]<br>
+                • V1 Flight Computer [2026]<br>
+                • Polaris Flight Computer [2025]<br>
+                • Auto Testing System [2025]<br>
+                • Sync Up! Rhythm Game [2024]
+            `;
+            break;
+
+        case 'stack':
+            line.innerHTML = `
+                <div class="term-block-title">CORE SKILLS & TECH:</div>
+                PCB/Circuit Design • C/C++ • SystemVerilog • Assembly • Python • FPGA Design • CAD • SPICE • Soldering • Device Testing • KiCad
+            `;
+            break;
+
+        case 'help':
+            line.innerHTML = `
+                <div class="term-block-title">AVAILABLE COMMANDS:</div>
+                <span class="cmd-name">projects</span> - view list of key projects<br>
+                <span class="cmd-name">stack</span>    - display technical skills<br>
+                <span class="cmd-name">exit</span>     - close the terminal window<br>
+                <span class="cmd-name">clear</span>    - clear terminal output
+            `;
+            break;
+
+        case 'clear':
+        case 'cls':
+            output.innerHTML = '';
+            return;
+
+        default:
+            line.textContent = `command not found: ${cmd}. Type 'help' for available commands.`;
+            line.style.color = '#ff5f56';
+            break;
+    }
+
+    output.appendChild(line);
+    output.scrollTop = output.scrollHeight;
 }
 
 // ASCII spinning cube renderer
@@ -551,12 +633,12 @@ function renderSpinningCube() {
             }
         }
 
-        let output = '';
+        let outputText = '';
         for (let i = 0; i < height; i++) {
-            output += buffer.slice(i * width, (i + 1) * width).join('') + '\n';
+            outputText += buffer.slice(i * width, (i + 1) * width).join('') + '\n';
         }
 
-        canvas.textContent = output;
+        canvas.textContent = outputText;
         A += 0.04;
         B += 0.02;
 
