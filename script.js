@@ -2,16 +2,20 @@
 const navToggle = document.getElementById('nav-toggle');
 const navMenu = document.getElementById('nav-menu');
 
-navToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    navToggle.classList.toggle('active');
-});
+if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+    });
+}
 
 // Close mobile menu when clicking on a link
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        navToggle.classList.remove('active');
+        if (navMenu && navToggle) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+        }
     });
 });
 
@@ -32,16 +36,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Navbar background on scroll
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.style.background = 'var(--bg-primary)';
-        navbar.style.backdropFilter = 'blur(20px)';
-    } else {
+    if (navbar) {
         navbar.style.background = 'var(--bg-primary)';
         navbar.style.backdropFilter = 'blur(20px)';
     }
 });
 
-// Projects data - Easy to update!
+// Projects data
 const projectsData = [
     {
         title: "Automatic Testing System",
@@ -127,10 +128,6 @@ const projectsData = [
     }
 ];
 
-
-
-
-
 // Function to create project card HTML
 function createProjectCard(project, index) {
     const githubButton = project.isPrivate 
@@ -170,7 +167,6 @@ function loadProjects() {
         const projectCards = projectsGrid.querySelectorAll('.project-card');
         projectCards.forEach(card => {
             card.addEventListener('click', (e) => {
-                // Don't expand if clicking on the GitHub link
                 if (e.target.closest('.project-link')) {
                     return;
                 }
@@ -182,11 +178,6 @@ function loadProjects() {
         });
     }
 }
-
-// Load projects when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    loadProjects();
-});
 
 // Intersection Observer for animations
 const observerOptions = {
@@ -203,19 +194,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe project cards for animation
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        const projectCards = document.querySelectorAll('.project-card');
-        projectCards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-            observer.observe(card);
-        });
-    }, 100);
-});
-
 // Add typing effect to hero title
 function typeWriter(element, text, speed = 100) {
     let i = 0;
@@ -231,16 +209,6 @@ function typeWriter(element, text, speed = 100) {
     
     type();
 }
-
-// Initialize typing effect when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const originalText = heroTitle.textContent;
-        // Start typing immediately without delay
-        typeWriter(heroTitle, originalText, 80);
-    }
-});
 
 // Add scroll-to-top functionality
 function addScrollToTop() {
@@ -288,7 +256,6 @@ function addScrollToTop() {
 
 // Function to show project details in a modal
 function showProjectDetails(project) {
-    // Create modal overlay
     const modal = document.createElement('div');
     modal.className = 'project-modal';
     modal.innerHTML = `
@@ -331,11 +298,9 @@ function showProjectDetails(project) {
         </div>
     `;
     
-    // Add modal to page
     document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
     
-    // Add event listeners
     const closeBtn = modal.querySelector('.modal-close');
     const modalOverlay = modal;
     
@@ -346,7 +311,6 @@ function showProjectDetails(project) {
         }
     });
     
-    // Close on Escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeModal();
@@ -356,12 +320,13 @@ function showProjectDetails(project) {
     function closeModal() {
         modal.style.opacity = '0';
         setTimeout(() => {
-            document.body.removeChild(modal);
+            if (modal.parentNode) {
+                document.body.removeChild(modal);
+            }
             document.body.style.overflow = 'auto';
         }, 300);
     }
     
-    // Animate modal in
     setTimeout(() => {
         modal.style.opacity = '1';
     }, 10);
@@ -370,18 +335,17 @@ function showProjectDetails(project) {
 // Theme Toggle Functionality
 function initThemeToggle() {
     const themeSwitch = document.getElementById('theme-switch');
+    if (!themeSwitch) return;
+
     const body = document.body;
     
-    // Get saved theme or default to dark
     const savedTheme = localStorage.getItem('theme') || 'dark';
     body.setAttribute('data-theme', savedTheme);
     
-    // Set switch state based on saved theme
     if (savedTheme === 'light') {
         themeSwitch.checked = true;
     }
     
-    // Update favicon based on initial theme
     updateFavicon(savedTheme);
     
     themeSwitch.addEventListener('change', () => {
@@ -396,12 +360,10 @@ function initThemeToggle() {
 function updateFavicon(theme) {
     const favicon = document.querySelector('link[rel="icon"]');
     if (favicon) {
-        // Create a new SVG with the appropriate color
         const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
             <circle cx="16" cy="16" r="16" fill="${theme === 'dark' ? 'black' : 'white'}"/>
         </svg>`;
         
-        // Create a data URL from the SVG
         const dataUrl = 'data:image/svg+xml;base64,' + btoa(svgContent);
         favicon.href = dataUrl;
     }
@@ -414,12 +376,10 @@ function initEmailCopy() {
         emailBtn.addEventListener('click', (e) => {
             e.preventDefault();
             
-            // Copy email to clipboard
             const email = 'anishemail3131@gmail.com';
             navigator.clipboard.writeText(email).then(() => {
                 showCopiedMessage();
             }).catch(() => {
-                // Fallback for older browsers
                 const textArea = document.createElement('textarea');
                 textArea.value = email;
                 document.body.appendChild(textArea);
@@ -436,27 +396,22 @@ function showCopiedMessage() {
     const emailBtn = document.getElementById('email-btn');
     if (!emailBtn) return;
     
-    // Remove existing message if any
     const existingMessage = document.querySelector('.copied-message');
     if (existingMessage) {
         existingMessage.remove();
     }
     
-    // Create new message
     const message = document.createElement('div');
     message.className = 'copied-message';
     message.textContent = 'Copied!';
     
-    // Position relative to email button
     emailBtn.style.position = 'relative';
     emailBtn.appendChild(message);
     
-    // Trigger animation
     setTimeout(() => {
         message.classList.add('show');
     }, 10);
     
-    // Fade out after 2 seconds
     setTimeout(() => {
         message.classList.add('fade-out');
         setTimeout(() => {
@@ -467,9 +422,26 @@ function showCopiedMessage() {
     }, 2000);
 }
 
-// Initialize scroll-to-top button
+// DOM Initialization
 document.addEventListener('DOMContentLoaded', () => {
+    loadProjects();
     addScrollToTop();
     initThemeToggle();
     initEmailCopy();
+
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        const originalText = heroTitle.textContent;
+        typeWriter(heroTitle, originalText, 80);
+    }
+
+    setTimeout(() => {
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+            observer.observe(card);
+        });
+    }, 100);
 });
