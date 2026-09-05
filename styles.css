@@ -221,3 +221,83 @@ a.project-title:hover {
     font-size: 0.75rem;
     color: #404040;
 }
+
+/* Terminal Window Styles */
+.term-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 270px;
+    background: #111111;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    font-family: var(--font-mono);
+    overflow: hidden;
+}
+
+.term-header {
+    background: #181818;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: grab;
+    border-bottom: 1px solid #222222;
+    user-select: none;
+}
+
+.term-header:active {
+    cursor: grabbing;
+}
+
+.term-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #333333;
+    display: inline-block;
+}
+
+.dot-close {
+    background: #ff5f56;
+    cursor: pointer;
+}
+
+.term-title {
+    font-size: 0.7rem;
+    color: #666666;
+}
+
+.term-body {
+    padding: 12px;
+    color: #4af626;
+    font-size: 0.75rem;
+}
+
+.term-line {
+    margin-bottom: 8px;
+    color: #888888;
+}
+
+.prompt {
+    color: #4af626;
+}
+
+.ascii-canvas {
+    font-family: monospace;
+    font-size: 0.65rem;
+    line-height: 1.0;
+    letter-spacing: 0px;
+    color: #4af626;
+    margin: 0;
+    white-space: pre;
+    text-align: center;
+}

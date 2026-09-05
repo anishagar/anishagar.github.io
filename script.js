@@ -163,7 +163,6 @@ function loadProjects() {
     if (projectsGrid) {
         projectsGrid.innerHTML = projectsData.map((project, index) => createProjectCard(project, index)).join('');
         
-        // Add click event listeners to project cards
         const projectCards = projectsGrid.querySelectorAll('.project-card');
         projectCards.forEach(card => {
             card.addEventListener('click', (e) => {
@@ -422,12 +421,158 @@ function showCopiedMessage() {
     }, 2000);
 }
 
+// Easter Egg setup & terminal window trigger
+let cubeAnimFrame = null;
+
+function initEasterEgg() {
+    const seq = ['ArrowLeft', 'ArrowRight', 'ArrowLeft'];
+    let input = [];
+
+    document.addEventListener('keydown', (e) => {
+        input.push(e.key);
+        if (input.length > seq.length) {
+            input.shift();
+        }
+
+        if (input.length === seq.length && input.every((val, idx) => val === seq[idx])) {
+            openTerminal();
+            input = [];
+        }
+    });
+}
+
+function openTerminal() {
+    if (document.querySelector('.term-window')) return;
+
+    const term = document.createElement('div');
+    term.className = 'term-window';
+    term.innerHTML = `
+        <div class="term-header">
+            <div class="term-dots">
+                <span class="dot dot-close"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <span class="term-title">bash - 80x24</span>
+        </div>
+        <div class="term-body">
+            <div class="term-line"><span class="prompt">user@dev:~$</span> ./spin_cube.sh</div>
+            <pre class="ascii-canvas" id="cube-view"></pre>
+        </div>
+    `;
+
+    document.body.appendChild(term);
+
+    // Draggable functionality (Fixes initial jump issue)
+    const header = term.querySelector('.term-header');
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    header.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        const rect = term.getBoundingClientRect();
+        
+        term.style.transform = 'none';
+        term.style.left = `${rect.left}px`;
+        term.style.top = `${rect.top}px`;
+
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        term.style.left = `${e.clientX - offsetX}px`;
+        term.style.top = `${e.clientY - offsetY}px`;
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    // Close logic
+    const closeBtn = term.querySelector('.dot-close');
+    closeBtn.addEventListener('click', () => {
+        if (cubeAnimFrame) cancelAnimationFrame(cubeAnimFrame);
+        term.remove();
+    });
+
+    renderSpinningCube();
+}
+
+// ASCII spinning cube renderer
+function renderSpinningCube() {
+    const canvas = document.getElementById('cube-view');
+    if (!canvas) return;
+
+    let A = 0;
+    let B = 0;
+
+    function render() {
+        const width = 28;
+        const height = 14;
+        const zBuffer = new Array(width * height).fill(0);
+        const buffer = new Array(width * height).fill(' ');
+
+        const cubeWidth = 6.5;
+        const distance = 50;
+        const K1 = 30;
+
+        for (let x = -cubeWidth; x < cubeWidth; x += 0.7) {
+            for (let y = -cubeWidth; y < cubeWidth; y += 0.7) {
+                for (let z = -cubeWidth; z < cubeWidth; z += 0.7) {
+                    const cosA = Math.cos(A), sinA = Math.sin(A);
+                    const cosB = Math.cos(B), sinB = Math.sin(B);
+
+                    const circleX = x;
+                    const circleY = y * cosA - z * sinA;
+                    const circleZ = y * sinA + z * cosA;
+
+                    const rotX = circleX * cosB + circleZ * sinB;
+                    const rotY = circleY;
+                    const rotZ = -circleX * sinB + circleZ * cosB + distance;
+
+                    const ooz = 1 / rotZ;
+
+                    const xp = Math.floor(width / 2 + K1 * ooz * rotX * 2);
+                    const yp = Math.floor(height / 2 + K1 * ooz * rotY);
+
+                    const idx = xp + yp * width;
+                    if (xp >= 0 && xp < width && yp >= 0 && yp < height) {
+                        if (ooz > zBuffer[idx]) {
+                            zBuffer[idx] = ooz;
+                            const chars = '.:-i|=+#%@';
+                            const charIdx = Math.floor((rotZ - distance + cubeWidth) / (2 * cubeWidth) * chars.length);
+                            buffer[idx] = chars[Math.max(0, Math.min(chars.length - 1, charIdx))];
+                        }
+                    }
+                }
+            }
+        }
+
+        let output = '';
+        for (let i = 0; i < height; i++) {
+            output += buffer.slice(i * width, (i + 1) * width).join('') + '\n';
+        }
+
+        canvas.textContent = output;
+        A += 0.04;
+        B += 0.02;
+
+        cubeAnimFrame = requestAnimationFrame(render);
+    }
+
+    render();
+}
+
 // DOM Initialization
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
     addScrollToTop();
     initThemeToggle();
     initEmailCopy();
+    initEasterEgg();
 
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle) {
