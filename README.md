@@ -2,6 +2,6 @@
 
 behold, read me!
 
-
-
-wahhhadd uppp
+if you see this,
+press left arrow, right arrow, and then left arrow on the website
+you will not regret it :)
